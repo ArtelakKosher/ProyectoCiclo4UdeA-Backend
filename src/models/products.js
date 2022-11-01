@@ -26,14 +26,10 @@ const productSchema = mongoose.Schema({
       "El subtítulo del producto no debe exceder los 120 caracteres.",
     ],
   },
-  image: [
-    {
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  image: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: [true, "Por favor, selecciona la categoria del producto."],
