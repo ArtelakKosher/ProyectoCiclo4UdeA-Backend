@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
+  sku: {
+    type: String,
+    required: [true, "Por favor, registra el código del producto."],
+    trim: true,
+    unique: true,
+    uppercase: true,
+  },
   title: {
     type: String,
     required: [true, "Por favor, registra el título del producto."],
@@ -21,10 +28,6 @@ const productSchema = mongoose.Schema({
   },
   image: [
     {
-      public_id: {
-        type: String,
-        required: true,
-      },
       url: {
         type: String,
         required: true,
