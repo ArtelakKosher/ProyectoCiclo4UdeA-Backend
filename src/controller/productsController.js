@@ -29,7 +29,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Ver un profucto por Id
+// Ver un producto por Id
 exports.getProductById = catchAsyncErrors(async (req, res, next) => {
   const product = await productModel.findById(req.params.id);
 
