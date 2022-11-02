@@ -13,8 +13,8 @@ exports.isUserAuthenticated = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
-  const decodificada = jwt.decode(token, process.env.JWT_SECRET);
-  req.user = await User.findById(decodificada.id);
+  const decrypted = jwt.decode(token, process.env.JWT_SECRET);
+  req.user = await User.findById(decrypted.id);
 
   next();
 });
