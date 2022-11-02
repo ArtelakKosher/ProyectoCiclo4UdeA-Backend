@@ -11,13 +11,13 @@ const {
 const { isUserAuthenticated, authorizeRoles } = require("../middleware/auth");
 
 router.route("/product/new").post(newProduct); //establecemos la ruta
-router.route("/products").get(isUserAuthenticated, authorizeRoles("admin","user"), getProducts); //Establecemos desde que ruta queremos ver el getProducts
+router.route("/products").get(getProducts); //Establecemos desde que ruta queremos ver el getProducts
 router.route("/product/:id").get(getProductById); //Ruta para consulta por Id
 router
   .route("/product/:id")
-  .patch(isUserAuthenticated, authorizeRoles("admin"), updateProduct); //Ruta para actualizar producto
+  .patch(isUserAuthenticated, authorizeRoles("admin","user"), updateProduct); //Ruta para actualizar producto
 router
   .route("/product/:id")
-  .delete(isUserAuthenticated, authorizeRoles("admin"), deleteProduct); //Ruta para eliminar producto
+  .delete(isUserAuthenticated, authorizeRoles("admin","user"), deleteProduct); //Ruta para eliminar producto
 
 module.exports = router;
