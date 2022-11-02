@@ -25,7 +25,7 @@ exports.authorizeRoles = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHandler(
-          `Rol (${req.user.role}) no esta autorizado a entrar a esta area`,
+          `El rol (${req.user.role}) no esta autorizado a entrar a esta area`,
           403
         )
       );
