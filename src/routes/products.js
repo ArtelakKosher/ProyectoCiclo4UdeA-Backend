@@ -11,8 +11,8 @@ const {
 const { isUserAuthenticated, authorizeRoles } = require("../middleware/auth");
 
 router.route("/product/new").post(isUserAuthenticated, authorizeRoles("admin","user"), newProduct); //establecemos la ruta
-router.route("/products").get(getProducts); //Establecemos desde que ruta queremos ver el getProducts
-router.route("/product/:id").get(getProductById); //Ruta para consulta por Id
+router.route("/products").get(getProducts); // Establecemos desde que ruta queremos ver el getProducts
+router.route("/product/:id").get(getProductById); // Ruta para consulta por Id
 router
   .route("/product/:id")
   .patch(isUserAuthenticated, authorizeRoles("admin","user"), updateProduct); //Ruta para actualizar producto
