@@ -11,7 +11,7 @@ const {
 const { isUserAuthenticated, authorizeRoles } = require("../middleware/auth");
 
 router.route("/product/new").post(newProduct); //establecemos la ruta
-router.route("/products").get(isUserAuthenticated, authorizeRoles("user"), getProducts); //Establecemos desde que ruta queremos ver el getProducts
+router.route("/products").get(isUserAuthenticated, authorizeRoles("admin","user"), getProducts); //Establecemos desde que ruta queremos ver el getProducts
 router.route("/product/:id").get(getProductById); //Ruta para consulta por Id
 router
   .route("/product/:id")
