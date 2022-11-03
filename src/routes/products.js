@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const multer = require('multer');
+const multerConfig= require("../utils/multerConfig")
+
 const {
   getProducts,
   newProduct,
@@ -10,7 +13,7 @@ const {
 } = require("../controller/productsController"); //Traemos la respuesta json desde el controlador
 const { isUserAuthenticated, authorizedRoles } = require("../middleware/auth");
 
-router.route("/product/new").post(isUserAuthenticated, authorizedRoles("admin","user"), newProduct); //establecemos la ruta
+router.route("/product/new").post(isUserAuthenticated, authorizedRoles("admin","user"), multer(multerConfig).single('image'),newProduct); //establecemos la ruta
 router.route("/products").get(getProducts); // Establecemos desde que ruta queremos ver el getProducts
 router.route("/product/:id").get(getProductById); // Ruta para consulta por Id
 router

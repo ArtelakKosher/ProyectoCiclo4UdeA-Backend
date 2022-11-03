@@ -3,7 +3,7 @@ const connectDatabase = require("./config/database");
 
 const dotenv = require("dotenv");
 dotenv.config({ path: "src/config/config.env" });
-const port = process.env.PORT || 4000;
+const port = process.env.APP_PORT || 4000;
 
 app.get("/", (req, res) => {
   res.send("Welcome to Artelak API");

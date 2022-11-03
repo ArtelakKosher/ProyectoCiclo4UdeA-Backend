@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { appConfig } = require("../config");
 
 const productSchema = mongoose.Schema({
   sku: {
@@ -28,7 +29,7 @@ const productSchema = mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
+    default: "",
   },
   category: {
     type: String,
@@ -133,5 +134,11 @@ const productSchema = mongoose.Schema({
     required: true,
   },
 });
+
+productSchema.methods.setImgUrl = function setImgUrl(filename) {
+  const { host, port } = appConfig;
+  //this.image = `${host}:${port}/public/images/products/${filename}`;
+  this.image = `${host}/public/images/products/${filename}`;
+};
 
 module.exports = mongoose.model("product", productSchema);

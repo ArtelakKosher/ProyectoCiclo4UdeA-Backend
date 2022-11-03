@@ -6,10 +6,17 @@ const fetch = (url) =>
 
 // Create product /api/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
-  req.body.user=req.user.id;
-  
-  const product = await productModel.create(req.body);
-  
+  req.body.user = req.user.id;
+
+  const product = new productModel(req.body);
+
+  if (req.file) {
+    const { filename } = req.file;
+    product.setImgUrl(filename);
+  }
+
+  await product.save();
+
   res.status(201).json({
     success: true,
     product,
