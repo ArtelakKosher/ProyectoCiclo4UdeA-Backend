@@ -1,4 +1,4 @@
-const User = require("../models/auth");
+const userModel = require("../models/auth");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const tokenSubmitted = require("../utils/jwtToken");
@@ -9,7 +9,7 @@ const crypto = require("crypto");
 exports.userRegistration = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
 
-  const user = await User.create({
+  const user = await userModel.create({
     name,
     email,
     password,
@@ -31,7 +31,7 @@ exports.userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Buscar al usuario en nuestra base de datos
-  const user = await User.findOne({ email }).select("+password");
+  const user = await userModel.findOne({ email }).select("+password");
   if (!user) {
     return next(new ErrorHandler("Email o contraseña invalidos", 401));
   }
@@ -61,7 +61,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 
 // Olvido de contraseña
 exports.passwordRecovery = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await userModel.findOne({ email: req.body.email });
 
   if (!user) {
     return next(new ErrorHandler("El usuario no se encuentra registrado", 404));
@@ -107,7 +107,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
     .update(req.params.token)
     .digest("hex");
   // Buscamos al usuario al que se le va a resetear la contraseña
-  const user = await User.findOne({
+  const user = await userModel.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
@@ -133,7 +133,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Ver perfil de usuario (usuario que está logueado)
 exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.body.id);
+  const user = await userModel.findById(req.body.id);
 
   res.status(200).json({
     success: true,
@@ -143,7 +143,7 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Update contraseña (usuario logueado)
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select("+password");
+  const user = await userModel.findById(req.user.id).select("+password");
 
   // Revisamos si la contraseña antigua es igual la nueva
   const confirmPassword = await user.comparePassword(req.body.oldPassword);
@@ -166,7 +166,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     //Pendiente avatar
   };
 
-  const user = await User.findByIdAndUpdate(req.user.id, newData, {
+  const user = await userModel.findByIdAndUpdate(req.user.id, newData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -181,7 +181,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 // Servicios controladores sobre usuarios por parte de los ADMIN
 // Ver todos los usuarios
 exports.getUsers = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find();
+  const users = await userModel.find();
 
   res.status(200).json({
     success: true,
@@ -191,7 +191,7 @@ exports.getUsers = catchAsyncErrors(async (req, res, next) => {
 
 // Ver el detalle de un usuario
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await userModel.findById(req.params.id);
 
   if (!user) {
     return next(
@@ -215,7 +215,7 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
     role: req.body.role,
   };
 
-  const user = await User.findByIdAndUpdate(req.params.id, newData, {
+  const user = await userModel.findByIdAndUpdate(req.params.id, newData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -224,5 +224,21 @@ exports.updateUser = catchAsyncErrors(async (req, res, next) => {
   req.status(200).json({
     success: true,
     user,
+  });
+});
+
+// Borrar perfil de usuario (como administrador)
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await userModel.findById(req.params.id); //Variable de tipo modificable
+
+  if (!user) {
+    return next(new ErrorHandler("Usuario no encontrado", 404));
+  }
+
+  await user.remove();
+
+  res.status(200).json({
+    success: true,
+    message: "Usuario eliminado correctamente",
   });
 });
