@@ -158,21 +158,23 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   tokenSubmitted(user, 200, res);
 });
 
-// Update perfil de usuario (usuario logueado)
+//Update perfil de usuario (logueado)
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-  const newData = {
-    name: req.body.name,
-    /*email: req.body.email, // Ojo cambiar con soporte! - quitar esta linea*/
-    //Pendiente avatar
+  //Actualizar el email por user a decisiòn de cada uno
+  const newUserData = {
+    nombre: req.body.nombre,
+    /*email: req.body.email*/
   };
 
-  const user = await userModel.findByIdAndUpdate(req.user.id, newData, {
+  //update Avatar: pendiente
+
+  const user = await userModel.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   });
 
-  req.status(200).json({
+  res.status(200).json({
     success: true,
     user,
   });
@@ -207,32 +209,37 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Actualizar perfil de usuario (como administrador)
-exports.updateUser = catchAsyncErrors(async (req, res, next) => {
-  const newData = {
-    name: req.body.name,
-    email: req.body.email,
-    role: req.body.role,
-  };
+//Actualizar perfil de usuario (como administrador)
+exports.updateUser= catchAsyncErrors (async(req, res, next)=>{
+  const newData={
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role
+  }
 
-  const user = await userModel.findByIdAndUpdate(req.params.id, newData, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
+  const user= await userModel.findByIdAndUpdate(req.params.id, newData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false
+  })
 
-  req.status(200).json({
-    success: true,
-    user,
-  });
-});
+  res.status(200).json({
+      success:true,
+      user
+  })
+})
 
 // Borrar perfil de usuario (como administrador)
 exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await userModel.findById(req.params.id); //Variable de tipo modificable
 
   if (!user) {
-    return next(new ErrorHandler(`El usuario con ${req.params.id} no fue encontrado en la base de datos`, 404));
+    return next(
+      new ErrorHandler(
+        `El usuario con ${req.params.id} no fue encontrado en la base de datos`,
+        404
+      )
+    );
   }
 
   await user.remove();
@@ -243,8 +250,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // Cambiar el estado del usuario a inactivo (como administrador)
 exports.inactiveUser = catchAsyncErrors(async (req, res, next) => {
   const user = await userModel.findById(req.params.id); //Variable de tipo modificable
-})
+});
