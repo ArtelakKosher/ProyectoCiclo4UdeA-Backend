@@ -22,10 +22,12 @@ app.use(function(req, res, next) {
 //Importar rutas
 const products = require("./routes/products");
 const users = require("./routes/auth");
+const orders = require("./routes/orders");
 
 // Middleware
 app.use("/api", products); //Sujeto a decision (ruta del navegador)
 app.use("/api", users);
+app.use("/api", orders);
 
 // Middleware para manejar errores
 app.use(errorMiddleware);

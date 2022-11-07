@@ -232,7 +232,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   const user = await userModel.findById(req.params.id); //Variable de tipo modificable
 
   if (!user) {
-    return next(new ErrorHandler("Usuario no encontrado", 404));
+    return next(new ErrorHandler(`El usuario con ${req.params.id} no fue encontrado en la base de datos`, 404));
   }
 
   await user.remove();
@@ -242,3 +242,9 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
     message: "Usuario eliminado correctamente",
   });
 });
+
+
+// Cambiar el estado del usuario a inactivo (como administrador)
+exports.inactiveUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await userModel.findById(req.params.id); //Variable de tipo modificable
+})

@@ -1,5 +1,5 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const productModel = require("../models/products");
+const productModel = require("../models/product");
 const ErrorHandler = require("../utils/errorHandler");
 const fetch = (url) =>
   import("node-fetch").then(({ default: fetch }) => fetch(url));
@@ -26,7 +26,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    cantidad: products.length,
+    productsQuantity: products.length,
     products,
   });
 });
