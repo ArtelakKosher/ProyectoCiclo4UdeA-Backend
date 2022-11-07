@@ -26,10 +26,8 @@ router
   .delete(isUserAuthenticated, authorizedRoles("admin", "user"), deleteProduct); //Ruta para eliminar producto
 
 // Reviews
-/*
 router.route("/review").put(isUserAuthenticated, createProductReview);
-router.route("/reviews").get(isUserAuthenticated, getProductReviews);
+router.route("/reviews").get(getProductReviews);
 router.route("/review").delete(isUserAuthenticated, deleteReview);
-*/
 
 module.exports = router;
