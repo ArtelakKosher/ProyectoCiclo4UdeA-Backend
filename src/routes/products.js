@@ -15,15 +15,15 @@ const { isUserAuthenticated, authorizedRoles } = require("../middleware/auth");
 
 router
   .route("/product/new")
-  .post(isUserAuthenticated, authorizedRoles("admin", "user"), newProduct); //establecemos la ruta
+  .post(isUserAuthenticated, authorizedRoles("admin"), newProduct); //establecemos la ruta
 router.route("/products").get(getProducts); // Establecemos desde que ruta queremos ver el getProducts
 router.route("/product/:id").get(getProductById); // Ruta para consulta por Id
 router
   .route("/product/:id")
-  .patch(isUserAuthenticated, authorizedRoles("admin", "user"), updateProduct); //Ruta para actualizar producto
+  .put(isUserAuthenticated, authorizedRoles("admin"), updateProduct); //Ruta para actualizar producto
 router
   .route("/product/:id")
-  .delete(isUserAuthenticated, authorizedRoles("admin", "user"), deleteProduct); //Ruta para eliminar producto
+  .delete(isUserAuthenticated, authorizedRoles("admin"), deleteProduct); //Ruta para eliminar producto
 
 // Reviews
 router.route("/review").put(isUserAuthenticated, createProductReview);
