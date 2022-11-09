@@ -5,9 +5,16 @@ class APIFeatures {
   }
 
   search() {
+    const keyword = this.queryStr.keyword
+      ? {
+          description: {
+            $regex: this.queryStr.keyword,
+            $options: "i",
+          },
+        }
+      : {};
 
-
-    this.query = this.query.find({$match: { $or: [{ 'sku': { $regex:  request.query.val, $options: 'i'} }, { 'title': { $regex:  request.query.val, $options: 'i'} }] }});
+    this.query = this.query.find({ ...keyword });
     return this;
   }
 
