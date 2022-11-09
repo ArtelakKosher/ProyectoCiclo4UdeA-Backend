@@ -10,6 +10,7 @@ class APIFeatures {
           $or: [
             { sku: { $regex: this.queryStr.keyword, $options: "i" } },
             { title: { $regex: this.queryStr.keyword, $options: "i" } },
+            { subtitle: { $regex: this.queryStr.keyword, $options: "i" } },
             { description: { $regex: this.queryStr.keyword, $options: "i" } },
             { ingredients: { $regex: this.queryStr.keyword, $options: "i" } }
           ],
