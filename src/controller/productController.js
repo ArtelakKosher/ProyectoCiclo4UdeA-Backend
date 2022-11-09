@@ -19,7 +19,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
 //Ver la lista de productos
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-  const resultsPerPage = 10;
+  const resultsPerPage = 5;
   const productsCount = await productModel.count();
 
   const apiFeatures = new APIFeatures(productModel.find(), req.query)
