@@ -7,10 +7,7 @@ class APIFeatures {
   search() {
     const keyword = this.queryStr.keyword
       ? {
-          description: {
-            $regex: this.queryStr.keyword,
-            $options: "i",
-          },
+        $match: { $or: [{ 'sku': { $regex:  this.queryStr.keyword, $options: 'i'} }, { 'title': { $regex:  this.queryStr.keyword, $options: 'i'} }] }
         }
       : {};
 
