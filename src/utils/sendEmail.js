@@ -8,7 +8,7 @@ const sendEmail = async (options) => {
     port: 465,
     auth: {
       user: "prueba.artelak@gmail.com",
-      pass: "sqcbhikahzndeesy",
+      pass: "kwyzeyolkxhnrakg",
     },
   });
 
