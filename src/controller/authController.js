@@ -7,11 +7,11 @@ const crypto = require("crypto");
 
 // Registrar un nuevo usuario /api/user/register
 exports.userRegistration = catchAsyncErrors(async (req, res, next) => {
-  const { name, lastname, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   const user = await userModel.create({
-    name,
-    lastname,
+    firstName,
+    lastName,
     email,
     password,
     avatar: {
@@ -163,7 +163,8 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   //Actualizar el email por user a decisiòn de cada uno
   const newUserData = {
-    nombre: req.body.nombre,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     /*email: req.body.email*/
   };
 
@@ -213,7 +214,8 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 //Actualizar perfil de usuario (como administrador)
 exports.updateUser= catchAsyncErrors (async(req, res, next)=>{
   const newData={
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       role: req.body.role
   }
