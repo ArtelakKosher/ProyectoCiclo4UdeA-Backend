@@ -18,7 +18,7 @@ const router = express.Router();
 
 // Rutas gestionadas por user
 router.route("/user/register").post(userRegistration);
-router.route("/user/login").get(userLogin);
+router.route("/user/login").post(userLogin);
 router.route("/user/logout").get(isUserAuthenticated, logout);
 router.route("/user/passwordRecovery").post(passwordRecovery);
 router.route("/user/resetPassword/:token").post(resetPassword);
